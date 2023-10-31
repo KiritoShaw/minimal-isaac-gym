@@ -20,14 +20,38 @@ I am also very new to Isaac Gym, and I cannot guarantee my implementation is abs
 It's a simpler version of `legged_gym/scripts/train.py` of legged gym.
 
 ``` python
+from dqn import DQN
+from ppo import PPO
+from ppo_discrete import PPO_Discrete
+
 import argparse
 ```
 
 * The argparse module makes it easy to write user-friendly command-line interfaces. The program defines what arguments 
 it requires, and argparse will figure out how to parse those out of sys.argv. The argparse module also automatically 
 generates help and usage messages. The module will also issue errors when users give the program invalid arguments.
-Click [argparse 模块用法实例详解](https://zhuanlan.zhihu.com/p/56922793) and [argparse 教程 | PYthon](https://docs.python.org/zh-cn/3/howto/argparse.html) to know more details
+Click [Python 学习之 argparse 模块](https://zhuanlan.zhihu.com/p/28871131), [argparse 模块用法实例详解](https://zhuanlan.zhihu.com/p/56922793) 
+or [argparse 教程 | PYthon](https://docs.python.org/zh-cn/3/howto/argparse.html) to know more details.
 
+* We can simplify the args parsing procedure into four steps:
+  1. `import argparse` 
+  2. `parser = argparse.ArgumentParser()`
+  3. `parser.add_argument()`
+  4. `parser.parse_args()`
 
+After getting the `args = parser.parse_args()`, 
 
+```python
+if args.method == 'ppo':
+    policy = PPO(args)
+elif args.method == 'ppo_d':
+    policy = PPO_Discrete(args)
+elif args.method == 'dqn':
+    policy = DQN(args)
+```
 
+Lastly, `policy.run()` was executed in an endless loop.
+
+Now let's turn to `ppo.py`
+
+## ppo.py
