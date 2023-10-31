@@ -18,7 +18,7 @@ class Cartpole:
 
         # configure sim (gravity is pointing down)
         sim_params = gymapi.SimParams()
-        sim_params.up_axis = gymapi.UP_AXIS_Z
+        sim_params.up_axis = gymapi.UP_AXIS_Z  # UP_AXIS_Y by default due to some legacy reason
         sim_params.gravity = gymapi.Vec3(0.0, 0.0, -9.81)
         sim_params.dt = 1 / 60.
         sim_params.substeps = 2
@@ -188,7 +188,7 @@ class Cartpole:
         self.gym.set_dof_actuation_force_tensor(self.sim, forces)
 
         # simulate and render
-        self.simulate()
+        self.simulate()  # simulate and fetch results
         if not self.args.headless:
             self.render()
 
