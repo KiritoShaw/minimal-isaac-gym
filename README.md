@@ -13,3 +13,21 @@ Simply run `python trainer.py --method {dqn; ppo, ppo_d}`.
 ## Disclaimer
 I am also very new to Isaac Gym, and I cannot guarantee my implementation is absolutely correct. If you have found anything unusual or unclear that can be improved, PR or Issues are highly welcomed.
 
+# Notes by Shaw_ZYX
+
+## trainer.py
+
+It's a simpler version of `legged_gym/scripts/train.py` of legged gym.
+
+``` python
+import argparse
+```
+
+* The argparse module makes it easy to write user-friendly command-line interfaces. The program defines what arguments 
+it requires, and argparse will figure out how to parse those out of sys.argv. The argparse module also automatically 
+generates help and usage messages. The module will also issue errors when users give the program invalid arguments.
+Click [argparse 模块用法实例详解](https://zhuanlan.zhihu.com/p/56922793) and [argparse 教程 | PYthon](https://docs.python.org/zh-cn/3/howto/argparse.html) to know more details
+
+
+
+
