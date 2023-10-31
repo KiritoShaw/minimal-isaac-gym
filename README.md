@@ -39,9 +39,11 @@ or [argparse 教程 | PYthon](https://docs.python.org/zh-cn/3/howto/argparse.htm
   3. `parser.add_argument()`
   4. `parser.parse_args()`
 
-After getting the `args = parser.parse_args()`, 
+After getting the `args`, the class named by RL algorithm takes args as input and output an instantiated policy.
 
 ```python
+args = parser.parse_args()
+
 if args.method == 'ppo':
     policy = PPO(args)
 elif args.method == 'ppo_d':
@@ -55,3 +57,5 @@ Lastly, `policy.run()` was executed in an endless loop.
 Now let's turn to `ppo.py`
 
 ## ppo.py
+
+There are two classes defined in the `ppo.py`: one is Net, where the network architecture is defined, the other is PPO.
