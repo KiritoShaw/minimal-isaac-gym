@@ -144,11 +144,13 @@ class PPO:
         with torch.no_grad():
             mu = self.net.pi(obs)
             cov_mat = torch.diag(self.action_var)
+            # multivariate normal distribution
             dist = MultivariateNormal(mu, cov_mat)
             action = dist.sample()
             log_prob = dist.log_prob(action)
             action = action.clip(-1, 1)
 
+        # take a step in the RL env and refresh the observation buffer, reward buffer and reset buffer
         self.env.step(action)
         next_obs, reward, done = self.env.obs_buf.clone(), self.env.reward_buf.clone(), self.env.reset_buf.clone()
         self.env.reset()

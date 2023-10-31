@@ -58,4 +58,45 @@ Now let's turn to `ppo.py`
 
 ## ppo.py
 
-There are two classes defined in the `ppo.py`: one is Net, where the network architecture is defined, the other is PPO.
+There are two classes defined in the `ppo.py`: one is `Net`, where the network architecture is defined, the other is `PPO`, 
+where function `make_data`, `update`, `run` is defined.
+
+In the last session, the PPO takes the variable `args` as input parameters. And let's see how it works in PPO:
+
+```python
+def __init__(self, args):
+    self.args = args
+
+    # initialise parameters
+    self.env = Cartpole(args)
+
+    self.mini_batch_size = self.args.num_envs * self.mini_chunk_size
+
+    self.net = Net(self.env.num_obs, self.env.num_act).to(args.sim_device)
+    self.action_var = torch.full((self.env.num_act,), 0.1).to(args.sim_device)
+```
+
+In the `__init__` function, an RL environment was initiated with the input parameters `args`.
+A network `self.net` and an Adam optimizer `self.optim` are also initiated.
+
+`PPO.run()` 中主要负责下述内容
+* 获取观测
+  * `obs = self.env.obs_buf.clone()`
+* 策略网络通过观测计算动作 
+  * `mu = self.net.pi(obs)`
+  * `dist = MultivariateNormal(mu, cov_mat)`
+  * `action = dist.sample()`
+* 在强化学习环境中采取动作并获取相应的状态 / 观测、奖励等 
+  * `self.env.step(action)`
+  * `next_obs, reward, done = self.env.obs_buf.clone(), self.env.reward_buf.clone(), self.env.reset_buf.clone()`
+  * `self.env.reset()`
+* 储存新数据
+  * `self.data.append((obs, action, reward, next_obs, log_prob, 1 - done))`
+* 当数据量不小于 `rollout_size` 时，更新网络 
+  * `self.update()`
+* 计数器自增
+  * `self.run_step += 1`
+
+
+
+
